@@ -1,8 +1,10 @@
 <?php
 // by Matthew Bordignon 2015 @bordignon on twitter
 //
-// Use at your own risk, I run this on my private server and not on a public servcie, so not sure how good the code is against
+// Use at your own risk, I run this on my private server and not on a public one, so not sure how good the code is against
 // mysql injection. I am happy to take pull requests that fix any  problems.
+//
+// note the google maps api key needs to be added below, you can try deleting the whole line and seeing if it works as well.
 
 //location of the database connection information, mysqlserver, username, password
 $path = $_SERVER['DOCUMENT_ROOT'];
@@ -138,6 +140,7 @@ $user = $_GET['user'];
 		//connection info at the top of the page
 		
 		// my mysql database has the following fields all data is obtaining using owntracks.org apps and mqtt broker
+		// note the table name is called owntracks
 		// lat - latitude (VARCHAR)
 		// lon - longitude (VARCHAR)
 		// username - (VARCHAR)
