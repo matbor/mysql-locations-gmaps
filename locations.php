@@ -1,14 +1,22 @@
 <?php
+// by Matthew Bordignon 2015 @bordignon on twitter
+//
+// Use at your own risk, I run this on my private server and not on a public servcie, so not sure how good the code is against
+// mysql injection. I am happy to take pull requests that fix any  problems.
+
+//location of the database connection information, mysqlserver, username, password
 $path = $_SERVER['DOCUMENT_ROOT'];
 $path .= "dbinfo.php";
 require($path);
 
 $con = mysqli_connect($mysqlserver, $username, $password);
+
 if (!$con) {
     die('Could not connect: ' . mysqli_error($con));
 }
 mysqli_select_db($con, $database);
 
+//url options ie; locations.php?interval=30&user=matbor if none is specified all data is returned.
 $interval = intval($_GET['interval']);
 $user = $_GET['user'];
 ?>
@@ -128,7 +136,15 @@ $user = $_GET['user'];
         
 		<?php
 		//connection info at the top of the page
-
+		
+		// my mysql database has the following fields all data is obtaining using owntracks.org apps and mqtt broker
+		// lat - latitude (VARCHAR)
+		// lon - longitude (VARCHAR)
+		// username - (VARCHAR)
+		// device - (VARCHAR)
+		// tstLocal - (DATETIME)
+		
+		//queries
 		if (empty($user) && $interval > 0)
 		{ // if username has not been spedified and a interval has
 			$sql = "SELECT tstLocal, lat, lon, username, device FROM  owntracks WHERE FROM_UNIXTIME(tst) BETWEEN DATE_SUB(NOW(),INTERVAL '".$interval."' DAY) AND NOW()";	
@@ -163,7 +179,12 @@ $user = $_GET['user'];
 
 		  //$full = $row['full'];  //enabling this causes the table to be too large and slow to display when you have a large interval ie. > 200 days --> need to enable it in the select querry
 		  //echo("addMarker($lat, $lon, '$person','<b>$dateInLocal </b><br />$person - $device<br/>$full');\n");  //enabling this with "$FULL" causes the table to be too large and slow to display when you have a large interval ie. > 200 days
-
+		
+		  // addMarker(lat, lng, person, info)
+		  // lat - latitude (VARCHAR)
+		  // lon - longitude	
+		  // person - used to group the markers in different colours
+		  // info - html, marker popup when clicked so basically text
 		  echo("addMarker($lat, $lon, '$person','<b>$time </b><br />$person - $device<br/>');\n");
 
 		}
